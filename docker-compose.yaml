@@ -1,0 +1,43 @@
+version: '3.8'  # Use the version compatible with your Docker Compose setup
+
+services:
+  counter-service:
+    container_name: counter-service
+    image: 095415050978.dkr.ecr.us-east-1.amazonaws.com/counter-service:latest
+    build:
+      context: .  # Build the Docker image from the Dockerfile in the current directory
+    ports:
+      - "8080:8080"  # Map port 8080 on the host to port 8080 in the container
+    volumes:
+      - ./data:/data  # Bind mount the ./data directory on the host to /data in the container
+    restart: always
+    mem_limit: 256M
+    cpus: 0.5
+
+# Uncomment and adjust the following section if you need a PostgreSQL database
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#   db:
+#     image: postgres
+#     restart: always
+#     user: postgres
+#     secrets:
+#       - db-password
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#     environment:
+#       - POSTGRES_DB=example
+#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+#     expose:
+#       - 5432
+#     healthcheck:
+#       test: [ "CMD", "pg_isready" ]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+# volumes:
+#   db-data:
+# secrets:
+#   db-password:
+#     file: db/password.txt
