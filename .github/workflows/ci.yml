@@ -162,8 +162,8 @@ jobs:
         #Login to Docker registry
         $SSH_COMMAND "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY"
         
-        # Copy docker-compose.yaml to EC2 server
-        $SCP_COMMAND docker-compose.yaml $EC2_USER@$EC2_HOST:/home/ubuntu/docker/
+        # Copy docker-compose.yml to EC2 server
+        $SCP_COMMAND docker-compose.yml $EC2_USER@$EC2_HOST:/home/ubuntu/docker/
         
         # Pull and run the Docker container on EC2
         $SSH_COMMAND "cd /home/ubuntu/docker/ && docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG && docker compose -f docker-compose.yml up -d --force-recreate"
